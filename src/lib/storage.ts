@@ -18,6 +18,14 @@ export async function uploadPanelImage(
   userId: string,
   panelId: string
 ): Promise<string> {
+  if (!dataUriOrBase64 || dataUriOrBase64.startsWith('http://') || dataUriOrBase64.startsWith('https://')) {
+    return dataUriOrBase64;
+  }
+
+  if (dataUriOrBase64.startsWith('file://')) {
+    return dataUriOrBase64;
+  }
+
   const cleanBase64 = dataUriOrBase64.replace(/^data:image\/\w+;base64,/, '');
 
   // 1. Try Vercel Blob if token is configured
